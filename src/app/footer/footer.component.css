@@ -1,0 +1,34 @@
+.tittle{
+    font-family: 'Century Gothic';
+    font-size: 21pt;
+    font-weight: bold;
+}
+.big-tittle{
+    font-family: 'Gill Sans MT';
+    font-size: 32pt;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.paragraphe{
+    font-family: 'Century Gothic';
+    font-size: 12pt;
+}
+
+.important{
+    font-family: 'Century Gothic';
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.cursiva{
+    font-family: 'Century Gothic';
+    font-style: italic;
+    font-size: 12pt;
+}
+.col-3 a {
+    color: white; 
+    text-decoration: none;
+    display: block;
+    margin-bottom: 5px;
+}

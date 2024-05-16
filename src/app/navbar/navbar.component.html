@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav id="navbar" class="navbar navbar-expand-lg background" style="font-family: 'Century Gothic';">
+        <div class="container-fluid">
+            <a href="#">
+                <img src="../../assets/img/logo/Logo_txt/TXTWi_LOGO_202404001Fichier 10.png" class="img-fluid" alt="Descripción de la imagen" width="100px">
+            </a>            
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle background" style="color: white;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Langue et Région <i class="bi bi-globe"></i>
+                    </a>
+                    <ul class="dropdown-menu background">
+                        <li><a class="dropdown-item background" href="#">Français</a></li>
+                        <li><a class="dropdown-item background" href="#">Anglais</a></li>
+                        <li><a class="dropdown-item background" href="#">Allemand</a></li>
+                        <li><a class="dropdown-item background" href="#">Italien</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="d-flex justify-content-between background">
+                <a role="button" class="navbar-text background" (click)="onCartIconClick()">
+                    <i class="bi bi-cart"></i>
+                </a>
+                <a class="navbar-text cart-background" role="button" (click)="onCartIconClick()">{{ cartService.getCartQuantity() }}</a>
+            </div>
+            <a routerLink="/login" class="navbar-text background" style="margin-left: 1%; display: inline-block;cursor: pointer;">
+                <i class="bi bi-person"></i>
+            </a>            
+        </div>        
+        </div>
+      </nav>
+</body>
+</html>

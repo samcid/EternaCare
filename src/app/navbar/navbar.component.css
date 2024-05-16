@@ -1,0 +1,39 @@
+.background {
+    background-color: #263240;
+    color: white;
+}
+
+.cart-background{
+    background-color: white;
+    color: #263240;
+    border-radius: 50%;
+    width: 20px; 
+    height: 20px;
+    text-align: center;
+    font-size: x-small;
+    line-height: 5px;
+    text-decoration: none;
+}
+
+.tittle{
+    font-family: 'Century Gothic';
+    font-size: 21pt;
+    font-weight: bold;
+}
+
+.paragraphe{
+    font-family: 'Century Gothic';
+    font-size: 12pt;
+}
+
+.important{
+    font-family: 'Century Gothic';
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.cursiva{
+    font-family: 'Century Gothic';
+    font-style: italic;
+    font-size: 12pt;
+}

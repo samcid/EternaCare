@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    <link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico">
+</head>
+
+<body class="background">
+    <app-navbar class="app-navbar" (cartIconClick)="toggleSidePanel()"></app-navbar>
+    <div class="container-1">
+        <img src="../../assets/img/logo/Full_logo/Withe_LOGO_202404001Fichier 5.png" alt=""
+            style="width: 30%; margin-top: 11%;">
+        <div class="big-tittle" style="margin-top: 10%;">
+            <p>SUPPLEMENT SWISS MADE FOCUS ON PERFORMANCE</p>
+        </div>
+        <div class="background-orange-opacity tittle"
+            style="height: 20%; width: 100%; display: flex; align-items: center; justify-content: center; margin-top: 7.2%;">
+            <p>Étudié depuis 1930, élaboré pour ses qualificatifs</p>
+        </div>
+    </div>
+    <div class="container-2 tittle">
+        <br>
+        <div style="padding-left: 200px; padding-right: 200px;margin-top:8%">
+            <p>La matière première d’astaxanthine produite en laboratoire provient de l’une des zone les plus arides du
+                monde, le desert d’Atacama au Chili.</p>
+        </div>
+        <div class="background-orange-opacity" style="width: 250px;">
+            <a class="navbar-text" style="text-decoration: none;" role="button">En savoir plus</a>
+        </div>
+    </div>
+    <div *ngFor="let product of products; let index = index">
+        <div class="tittle" style="text-align: center;margin-top: 1%;">
+            <p>{{product.name}}</p>
+        </div>
+        <div class="paragraphe" style="width: 70%;text-align: center; margin: auto;">
+            <p>{{product.description}}</p>
+        </div>
+        <div class="container background-orange paragraphe" style="margin-top: 1%;">
+            <div class="row">
+                <div class="col-lg-8 col-md-12 d-flex align-items-center justify-content-center"> <!-- Centra la imagen vertical y horizontalmente -->
+                    <img src="{{product.image}}" class="img-fluid" style="width: 70%; height: auto;" alt="..."> <!-- Ajusta el tamaño de la imagen -->
+                </div>
+                <div class="col-lg-4 col-md-12" style="margin-top: 15%;">
+                    <div class="tittle">{{product.name}}</div>
+                    <div class="important" style="text-align: center;">{{product.quantities}}</div>
+                    <div class="tittle" style="text-align: center;">{{product.price}} CHF</div>
+                    <div class="d-flex align-items-center justify-content-center" style="display: flex; align-items: center; justify-content: center;"> <!-- Centra los elementos -->
+                        <button type="button" class="btn btn-light m-2" (click)="decrement()">-</button>
+                        <input type="text" class="form-control" style="width: 30%; text-align: center;" [(ngModel)]="quantity" min="1" readonly>
+                        <button type="button" class="btn btn-light m-2" (click)="increment()">+</button>
+                    </div>
+                    <button type="button" class="btn btn-light m-2" (click)="addToTheCart(product)">Ajouter au panier<i class="bi bi-cart"></i></button>
+                </div>
+            </div>
+        </div>           
+        <div class="container-3 paragraphe">
+            <br>
+            <div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 10%; width: 50%;">
+                <div class="accordion-item transparent">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed transparent" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            <h5>Produit</h5>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body transparent">
+                            <h5>{{product.productName}}</h5>
+                            <p>{{product.productDescription}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item transparent">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed transparent" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                            <h5>Avantages</h5>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body transparent">
+                            <p>{{product.advantages}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item transparent">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed transparent" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseThree" aria-expanded="false"
+                            aria-controls="flush-collapseThree">
+                            <h5>Qualité</h5>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseThree" class="accordion-collapse collapse"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body transparent">
+                            <p>{{product.quality}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item transparent">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed transparent" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseFour" aria-expanded="false"
+                            aria-controls="flush-collapseFour">
+                            <h5>Posologie</h5>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseFour" class="accordion-collapse collapse"
+                        data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body transparent">
+                            <p>{{product.dosage}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+    <app-side-panel [isOpen]="isSidePanelOpen" (closePanel)="closeSidePanel()"
+        (openPanel)="toggleSidePanel()"></app-side-panel>
+
+</body>
+
+</html>

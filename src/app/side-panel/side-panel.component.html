@@ -1,0 +1,45 @@
+<div id="sidePanel" [ngClass]="{ 'open': isOpen }" class="bg-light">
+    <div id="sidePanelContent">
+        <button class="close-button" (click)="onClosePanelClick()">×</button>
+        <div class="text-dark tittle" style="text-align: center;">
+            VOTRE PANIER <i class="bi bi-cart"></i>
+        </div>
+        <hr style="color:  #263240;">
+        <div *ngIf="quantity > 0" class="text-dark" style="text-align: center; margin-top: 10%;">
+            <ul>
+                <div *ngFor="let item of cartService.getCartItems(); let index = index"
+                    class="d-flex align-items-center justify-content-between">
+                    <div class="card bg-light mb-3 paragraphe" style="max-width: 18rem;">
+                        <div class="card-header">{{ item.name }} | {{ item.quantities }}</div>
+                        <button (click)="removeFromCart(index)" class="close-button" style="font-size: medium;">×</button>                     
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <img src="{{item.image}}" class="img-fluid" style="width: 30%;" alt="...">
+                            <button type="button" class="btn btn-light m-1" (click)="decrement(item)">-</button>
+                            <input type="text" class="form-control " style="width: 80%; text-align: center;"
+                                [value]="item.quantity" readonly>
+                            <button type="button" class="btn btn-light m-1" (click)="increment(item)">+</button>
+                        </div>
+                        <div>
+                            <h5>{{item.price}} CHF</h5>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+        <div *ngIf="quantity === 0" class="text-dark paragraphe" style="text-align: center; margin-top: 100%;">
+            <h6>Votre panier est vide</h6>
+        </div>
+    </div>
+    <div class="bottom-bar paragraphe" *ngIf="quantity > 0">
+        <div class="d-flex justify-content-between">
+            <p style="margin-left: 3%;" class="important">sous-total</p>
+            <h4 style="margin-right: 3%;">{{total}} CHF</h4>
+        </div>
+        <div>
+            <p style="font-size: smaller; text-align: center;">Taxes incluses et frais de livraison calculés lors du paiement</p>
+        </div> 
+        <div style="text-align: center;">
+            <button type="button" class="btn-blue m-2">PAIMENT</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+</head>
+<body class="background">
+    <app-navbar (cartIconClick)="toggleSidePanel()"></app-navbar>
+    <div class="background-img py-3 py-md-5">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
+                    <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="text-center mb-5">
+                                    <a href="#!">
+                                        <img src="../../assets/img/logo/Full_logo/Royalblue_LOGO_202404001Fichier 8.png" width="30%">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <form action="#!">
+                            <div class="row gy-3 gy-md-4 overflow-hidden">
+                                <div class="col-12">
+                                    <label for="nom" class="form-label">Nom <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="nom" id="nom" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="prenom" class="form-label">Prénom <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="prenom" id="prenom" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="adresse" class="form-label">Adresse <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="adresse" id="adresse" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" name="email" id="email" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="password" class="form-label">Mot de passe <span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" name="password" id="password" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="telephone" class="form-label">Téléphone (optionnel)</label>
+                                    <input type="tel" class="form-control" name="telephone" id="telephone">
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-grid">
+                                        <button class="btn-blue" type="submit">S'INSCRIRE</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-12">
+                                <hr class="mt-5 mb-4 border-secondary-subtle">
+                                <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
+                                    <a routerLink="/login" class="link-secondary text-decoration-none">Déjà un compte? Se connecter</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+    <app-side-panel [isOpen]="isSidePanelOpen" (closePanel)="closeSidePanel()"
+    (openPanel)="toggleSidePanel()"></app-side-panel>
+</body>
+</html>
