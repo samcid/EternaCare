@@ -21,31 +21,31 @@
                                 </div>
                             </div>
                         </div>
-                        <form action="#!">
+                        <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
                             <div class="row gy-3 gy-md-4 overflow-hidden">
                                 <div class="col-12">
                                     <label for="nom" class="form-label">Nom <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="nom" id="nom" required>
+                                    <input type="text" class="form-control" formControlName="nom" id="nom" required>
                                 </div>
                                 <div class="col-12">
                                     <label for="prenom" class="form-label">Prénom <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="prenom" id="prenom" required>
+                                    <input type="text" class="form-control" formControlName="prenom" id="prenom" required>
                                 </div>
                                 <div class="col-12">
                                     <label for="adresse" class="form-label">Adresse <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="adresse" id="adresse" required>
+                                    <input type="text" class="form-control" formControlName="adresse" id="adresse" required>
                                 </div>
                                 <div class="col-12">
                                     <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" name="email" id="email" required>
+                                    <input type="email" class="form-control" formControlName="email" id="email" required>
                                 </div>
                                 <div class="col-12">
                                     <label for="password" class="form-label">Mot de passe <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" name="password" id="password" required>
+                                    <input type="password" class="form-control" formControlName="password" id="password" required>
                                 </div>
                                 <div class="col-12">
                                     <label for="telephone" class="form-label">Téléphone (optionnel)</label>
-                                    <input type="tel" class="form-control" name="telephone" id="telephone">
+                                    <input type="tel" class="form-control" formControlName="telephone" id="telephone">
                                 </div>
                                 <div class="col-12">
                                     <div class="d-grid">
@@ -54,11 +54,17 @@
                                 </div>
                             </div>
                         </form>
+                        
                         <div class="row">
                             <div class="col-12">
                                 <hr class="mt-5 mb-4 border-secondary-subtle">
                                 <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
                                     <a routerLink="/login" class="link-secondary text-decoration-none">Déjà un compte? Se connecter</a>
+                                </div>
+                                <div class="col-12 d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center" style="margin-top: 2%;">
+                                    <button class="btn-blue" (click)="loginWithGoogle()">
+                                        <i class="bi bi-google"></i> Continuer avec Google
+                                    </button>
                                 </div>
                             </div>
                         </div>

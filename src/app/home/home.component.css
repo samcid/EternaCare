@@ -179,3 +179,8 @@ footer ul li {
     display: block; /* Convierte los enlaces en bloques para que se alineen verticalmente */
     margin-bottom: 5px; /* Agrega un espacio entre cada enlace */
 }
+
+html {
+    scroll-behavior: smooth;
+  }
+  

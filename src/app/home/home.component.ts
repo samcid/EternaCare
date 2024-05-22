@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart.service';
 import { Product } from '../models/product.model';
+import { ViewportScroller } from '@angular/common';
 
 interface AccordionOption {
   title: string;
@@ -31,7 +32,7 @@ export class HomeComponent implements OnInit {
   }
 ]; 
   isSidePanelOpen: boolean = false;
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService, private viewportScroller: ViewportScroller) { }
 
   ngOnInit(): void {
   }
@@ -57,6 +58,10 @@ export class HomeComponent implements OnInit {
   addToTheCart(product: Product){
     this.cartService.addToCart(product.productId, product.name, product.quantities, product.image, product.price, this.quantity);
     this.isSidePanelOpen = !this.isSidePanelOpen;
+  }
+
+  scrollToSection(): void {
+    this.viewportScroller.scrollToAnchor('infoProduct');
   }
 }
 

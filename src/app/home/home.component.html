@@ -28,7 +28,7 @@
                 monde, le desert d’Atacama au Chili.</p>
         </div>
         <div class="background-orange-opacity" style="width: 250px;">
-            <a class="navbar-text" style="text-decoration: none;" role="button">En savoir plus</a>
+            <a class="navbar-text" style="text-decoration: none;" role="button" (click)="scrollToSection()">En savoir plus</a>
         </div>
     </div>
     <div *ngFor="let product of products; let index = index">
@@ -58,7 +58,7 @@
         </div>           
         <div class="container-3 paragraphe">
             <br>
-            <div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top: 10%; width: 50%;">
+            <div class="accordion accordion-flush" id="infoProduct" style="margin-top: 10%; width: 50%;">
                 <div class="accordion-item transparent">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed transparent" type="button" data-bs-toggle="collapse"

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { NavbarComponent } from '../navbar/navbar.component'; 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidePanelComponent } from '../side-panel/side-panel.component';
 import { AuthenticationComponent } from '../authentication/authentication.component';
 import { AppRoutingModule } from '../app-routing.module';
@@ -16,12 +16,13 @@ import { CreateAccountComponent } from '../create-account/create-account.compone
     NavbarComponent ,
     SidePanelComponent,
     FooterComponent,
-    CreateAccountComponent
+    CreateAccountComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class HomeModule { 
