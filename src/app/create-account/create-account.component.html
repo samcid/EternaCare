@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account</title>
 </head>
+
 <body class="background">
     <app-navbar (cartIconClick)="toggleSidePanel()"></app-navbar>
     <div class="background-img py-3 py-md-5">
@@ -16,7 +18,8 @@
                             <div class="col-12">
                                 <div class="text-center mb-5">
                                     <a href="#!">
-                                        <img src="../../assets/img/logo/Full_logo/Royalblue_LOGO_202404001Fichier 8.png" width="30%">
+                                        <img src="../../assets/img/logo/Full_logo/Royalblue_LOGO_202404001Fichier 8.png"
+                                            width="30%">
                                     </a>
                                 </div>
                             </div>
@@ -26,27 +29,63 @@
                                 <div class="col-12">
                                     <label for="nom" class="form-label">Nom <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" formControlName="nom" id="nom" required>
+                                    <span *ngIf="nom && shouldShowError(nom)" class="text-danger">
+                                        <ng-container *ngIf="nom.errors?.['required']">Le nom est
+                                            obligatoire.</ng-container>
+                                    </span>
                                 </div>
                                 <div class="col-12">
-                                    <label for="prenom" class="form-label">Prénom <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" formControlName="prenom" id="prenom" required>
+                                    <label for="prenom" class="form-label">Prénom <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" formControlName="prenom" id="prenom"
+                                        required>
+                                    <span *ngIf="prenom && shouldShowError(prenom)" class="text-danger">
+                                        <ng-container *ngIf="prenom.errors?.['required']">Le prénom est
+                                            obligatoire.</ng-container>
+                                    </span>
                                 </div>
                                 <div class="col-12">
-                                    <label for="adresse" class="form-label">Adresse <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" formControlName="adresse" id="adresse" required>
+                                    <label for="adresse" class="form-label">Adresse <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" formControlName="adresse" id="adresse"
+                                        required>
+                                    <span *ngIf="adresse && shouldShowError(adresse)" class="text-danger">
+                                        <ng-container *ngIf="adresse.errors?.['required']">L'adresse est
+                                            obligatoire.</ng-container>
+                                    </span>
                                 </div>
                                 <div class="col-12">
-                                    <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" formControlName="email" id="email" required>
+                                    <label for="email" class="form-label">E-mail <span
+                                            class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" formControlName="email" id="email"
+                                        required>
+                                    <span *ngIf="email && shouldShowError(email)" class="text-danger">
+                                        <ng-container *ngIf="email.errors?.['required']">L'e-mail est
+                                            obligatoire.</ng-container>
+                                        <ng-container *ngIf="email.errors?.['email']">L'e-mail n'est pas
+                                            valide.</ng-container>
+                                    </span>
                                 </div>
                                 <div class="col-12">
-                                    <label for="password" class="form-label">Mot de passe <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" formControlName="password" id="password" required>
+                                    <label for="password" class="form-label">Mot de passe <span
+                                            class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" formControlName="password" id="password"
+                                        required>
+                                    <span *ngIf="password && shouldShowError(password)" class="text-danger">
+                                        <ng-container *ngIf="password.errors?.['required']">Le mot de passe est
+                                            obligatoire.</ng-container>
+                                        <ng-container *ngIf="password.errors?.['minlength']">Le mot de passe doit
+                                            contenir au moins 6 caractères.</ng-container>
+                                    </span>
                                 </div>
                                 <div class="col-12">
                                     <label for="telephone" class="form-label">Téléphone (optionnel)</label>
-                                    <input type="tel" class="form-control" formControlName="telephone" id="telephone">
-                                </div>
+                                    <input type="tel" class="form-control" formControlName="telephone" id="telephone" inputmode="tel" 
+                                           (keypress)="validatePhoneInput($event)">
+                                    <span *ngIf="telephone && shouldShowError(telephone)" class="text-danger">
+                                      <ng-container *ngIf="telephone.errors?.['pattern']">Le téléphone doit contenir seulement des chiffres et le symbole +.</ng-container>
+                                    </span>
+                                  </div>
                                 <div class="col-12">
                                     <div class="d-grid">
                                         <button class="btn-blue" type="submit">S'INSCRIRE</button>
@@ -54,14 +93,15 @@
                                 </div>
                             </div>
                         </form>
-                        
                         <div class="row">
                             <div class="col-12">
                                 <hr class="mt-5 mb-4 border-secondary-subtle">
                                 <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
-                                    <a routerLink="/login" class="link-secondary text-decoration-none">Déjà un compte? Se connecter</a>
+                                    <a routerLink="/login" class="link-secondary text-decoration-none">Déjà un compte?
+                                        Se connecter</a>
                                 </div>
-                                <div class="col-12 d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center" style="margin-top: 2%;">
+                                <div class="col-12 d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center"
+                                    style="margin-top: 2%;">
                                     <button class="btn-blue" (click)="loginWithGoogle()">
                                         <i class="bi bi-google"></i> Continuer avec Google
                                     </button>
@@ -75,6 +115,7 @@
     </div>
     <app-footer></app-footer>
     <app-side-panel [isOpen]="isSidePanelOpen" (closePanel)="closeSidePanel()"
-    (openPanel)="toggleSidePanel()"></app-side-panel>
+        (openPanel)="toggleSidePanel()"></app-side-panel>
 </body>
+
 </html>
