@@ -36,9 +36,9 @@ export class CreateAccountComponent implements OnInit {
     this.isSidePanelOpen = false;
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.formReg.valid) { 
-      this.userService.register(this.formReg.value)
+      await this.userService.register(this.formReg.value)
         .then(response => {
           console.log(response)
           this.router.navigate(['/login'])
