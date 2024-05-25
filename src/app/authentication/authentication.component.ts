@@ -42,7 +42,7 @@ export class AuthenticationComponent implements OnInit {
           this.router.navigate(['/home']);
         })
         .catch(error => {
-          this.handleAuthError(error); // Manejar el error aquí
+          this.handleAuthError(error); 
         });
     }
   }
@@ -52,7 +52,7 @@ export class AuthenticationComponent implements OnInit {
       this.router.navigate(['/home']);
     })
     .catch(error => {
-      this.handleAuthError(error); // Manejar el error aquí
+      this.handleAuthError(error); 
     });
   }
 

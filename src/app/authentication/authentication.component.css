@@ -50,3 +50,8 @@ footer ul li {
     border-color:  #263240; 
     transition: background-color 0.3s, color 0.3s; 
 }
+
+.paragraphe{
+    font-family: 'Century Gothic';
+    font-size: 12pt;
+}
