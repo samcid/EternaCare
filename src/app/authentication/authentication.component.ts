@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-authentication',
@@ -57,16 +58,21 @@ export class AuthenticationComponent implements OnInit {
 
   handleAuthError(error: any) {
     switch (error.code) {
-      case 'auth/wrong-password':
-        this.errorMessage = 'Contraseña incorrecta.';
-        break;
-      case 'auth/user-not-found':
-        this.errorMessage = 'Usuario no encontrado.';
+      case 'auth/invalid-credential':
+        Swal.fire({
+          icon: 'error',
+          title: 'Nom d\'utilisateur ou mot de passe incorrect',
+          text: 'Identifiants incorrects. Veuillez réessayer.',
+        });
         break;
       default:
-        this.errorMessage = 'Error en la autenticación. Inténtalo de nuevo.';
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur d\'authentification',
+          text: 'Une erreur s\'est produite lors de l\'authentification. Veuillez réessayer.',
+        });
         break;
-    }
+    }    
   }
 
   get email() {

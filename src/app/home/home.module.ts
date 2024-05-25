@@ -8,6 +8,7 @@ import { AuthenticationComponent } from '../authentication/authentication.compon
 import { AppRoutingModule } from '../app-routing.module';
 import { FooterComponent } from '../footer/footer.component';
 import { CreateAccountComponent } from '../create-account/create-account.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CreateAccountComponent } from '../create-account/create-account.compone
     CommonModule,
     FormsModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SweetAlert2Module
   ]
 })
 export class HomeModule { 
