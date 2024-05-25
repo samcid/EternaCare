@@ -12,6 +12,8 @@ export class AuthenticationComponent implements OnInit {
 
   formReg: FormGroup;
   formSubmitted: boolean = false; 
+  errorMessage: string = ''; 
+  isSidePanelOpen: boolean = false;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) { 
     this.formReg = this.formBuilder.group({ 
@@ -19,7 +21,7 @@ export class AuthenticationComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
-  isSidePanelOpen: boolean = false;
+  
   ngOnInit(): void {
   }
 
@@ -36,20 +38,35 @@ export class AuthenticationComponent implements OnInit {
     if (this.formReg.valid) { 
       this.userService.login(this.formReg.value)
         .then(response => {
-          console.log(response)
-          this.router.navigate(['/home'])
+          this.router.navigate(['/home']);
         })
-        .catch(error => console.log(error))
-    } else {
+        .catch(error => {
+          this.handleAuthError(error); // Manejar el error aquí
+        });
     }
   }
 
-  loginWithGoogle(){
+  loginWithGoogle() {
     this.userService.loginWithGoogle().then(response => {
-      console.log(response)
-      this.router.navigate(['/home'])
+      this.router.navigate(['/home']);
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      this.handleAuthError(error); // Manejar el error aquí
+    });
+  }
+
+  handleAuthError(error: any) {
+    switch (error.code) {
+      case 'auth/wrong-password':
+        this.errorMessage = 'Contraseña incorrecta.';
+        break;
+      case 'auth/user-not-found':
+        this.errorMessage = 'Usuario no encontrado.';
+        break;
+      default:
+        this.errorMessage = 'Error en la autenticación. Inténtalo de nuevo.';
+        break;
+    }
   }
 
   get email() {

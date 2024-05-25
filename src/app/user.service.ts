@@ -19,16 +19,12 @@ export class UserService {
     try {
       const { email, password, nom, prenom, adresse, telephone } = user;
 
-      // Crear usuario en Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
 
-      // Obtener el UID del usuario creado
       const uid = userCredential.user.uid;
 
-      // Referencia a la colección de datos adicionales de usuario en Firestore
       const userDetailsRef = collection(this.firestore, 'userDetails');
 
-      // Agregar los datos adicionales del usuario a Firestore
       await addDoc(userDetailsRef, {
         uid,
         nom,
@@ -38,9 +34,8 @@ export class UserService {
         telephone
       });
 
-      return userCredential; // Devolver el usuario creado
+      return userCredential; 
     } catch (error) {
-      // Manejar cualquier error
       console.error("Error al registrar usuario:", error);
       throw error;
     }
@@ -52,32 +47,27 @@ export class UserService {
 
   async loginWithGoogle() {
     try {
-      // Iniciar sesión con Google
       const result = await signInWithPopup(this.auth, new GoogleAuthProvider());
 
-      // Obtener el usuario autenticado
       const user = result.user;
 
-      // Verificar si el usuario ya existe en Firestore
       const userDetailsRef = collection(this.firestore, 'userDetails');
       const q = query(userDetailsRef, where('email', '==', user.email));
       const querySnapshot: QuerySnapshot<any> = await getDocs(q);
 
       if (querySnapshot.empty) {
-        // El usuario no existe en Firestore, entonces agregamos sus datos
         await addDoc(userDetailsRef, {
           uid: user.uid,
-          nom: user.displayName || '', // Nombre de Google
-          prenom: '', // Dejar el apellido vacío
-          adresse: '', // Dejar la dirección vacía
+          nom: user.displayName || '', 
+          prenom: '', 
+          adresse: '', 
           email: user.email,
-          telephone: '' // Dejar el teléfono vacío
+          telephone: '' 
         });
       }
 
-      return result; // Devolver el resultado de la autenticación con Google
+      return result; 
     } catch (error) {
-      // Manejar cualquier error
       console.error("Error al registrar usuario con Google:", error);
       throw error;
     }
