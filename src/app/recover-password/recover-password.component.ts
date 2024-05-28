@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UserService } from '../user.service';
 import Swal from 'sweetalert2';
+import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-authentication',
-  templateUrl: './authentication.component.html',
-  styleUrls: ['./authentication.component.css']
+  selector: 'app-recover-password',
+  templateUrl: './recover-password.component.html',
+  styleUrls: ['./recover-password.component.css']
 })
-export class AuthenticationComponent implements OnInit {
-
+export class RecoverPasswordComponent {
   formReg: FormGroup;
   formSubmitted: boolean = false; 
   errorMessage: string = ''; 
@@ -18,13 +17,11 @@ export class AuthenticationComponent implements OnInit {
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) { 
     this.formReg = this.formBuilder.group({ 
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]]
     });
   }
-  
-  ngOnInit(): void {
-  }
+
+  ngOnInit(): void {}
 
   toggleSidePanel() {
     this.isSidePanelOpen = !this.isSidePanelOpen;
@@ -37,9 +34,17 @@ export class AuthenticationComponent implements OnInit {
   onSubmit() {
     this.formSubmitted = true;
     if (this.formReg.valid) { 
-      this.userService.login(this.formReg.value)
-        .then(response => {
-          this.router.navigate(['/home']);
+      this.userService.recoverPassword(this.formReg.value.email)
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'E-mail envoyé',
+            text: 'Un e-mail de réinitialisation a été envoyé à votre adresse e-mail.',
+            showConfirmButton: false,
+            timer: 1500,
+            position: "top",
+          });
+          this.router.navigate(['/login']);
         })
         .catch(error => {
           this.handleAuthError(error); 
@@ -47,22 +52,23 @@ export class AuthenticationComponent implements OnInit {
     }
   }
 
-  loginWithGoogle() {
-    this.userService.loginWithGoogle().then(response => {
-      this.router.navigate(['/home']);
-    })
-    .catch(error => {
-      this.handleAuthError(error); 
-    });
-  }
-
   handleAuthError(error: any) {
     switch (error.code) {
-      case 'auth/invalid-credential':
+      case 'auth/invalid-email':
         Swal.fire({
           icon: 'error',
-          title: 'Nom d\'utilisateur ou mot de passe incorrect',
-          text: 'Identifiants incorrects. Veuillez réessayer.',
+          title: 'E-mail invalide',
+          text: 'L\'adresse e-mail n\'est pas valide.',
+          showConfirmButton: false,
+          timer: 1500,
+          position: "top",
+        });
+        break;
+      case 'auth/user-not-found':
+        Swal.fire({
+          icon: 'error',
+          title: 'Utilisateur non trouvé',
+          text: 'Aucun utilisateur n\'est associé à cet e-mail.',
           showConfirmButton: false,
           timer: 1500,
           position: "top",
@@ -71,8 +77,8 @@ export class AuthenticationComponent implements OnInit {
       default:
         Swal.fire({
           icon: 'error',
-          title: 'Erreur d\'authentification',
-          text: 'Une erreur s\'est produite lors de l\'authentification. Veuillez réessayer.',
+          title: 'Erreur',
+          text: 'Une erreur s\'est produite. Veuillez réessayer.',
           showConfirmButton: false,
           timer: 1500,
           position: "top",
@@ -83,10 +89,6 @@ export class AuthenticationComponent implements OnInit {
 
   get email() {
     return this.formReg.get('email');
-  }
-
-  get password() {
-    return this.formReg.get('password');
   }
 
   shouldShowError(control: AbstractControl) {

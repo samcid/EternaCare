@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, authState, signInWithPopup, GoogleAuthProvider} from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, authState, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail} from '@angular/fire/auth';
 import { Firestore, collection, addDoc, query, where, QuerySnapshot,getDocs } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import User from 'src/interfaces/user.interface';
@@ -80,4 +80,8 @@ export class UserService {
   isLoggedIn(): Observable<any> {
     return authState(this.auth);
   }  
+
+  recoverPassword(email: string): Promise<void> {
+    return sendPasswordResetEmail(this.auth, email);
+  }
 }
