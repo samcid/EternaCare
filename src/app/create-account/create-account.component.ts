@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'; // Importa FormBuilder y Validators
 import { Router } from '@angular/router';
+import User from 'src/interfaces/user.interface';
 
 @Component({
   selector: 'app-create-account',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 export class CreateAccountComponent implements OnInit {
 
   formReg: FormGroup;
+  user: User | null = null;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) { 
     this.formReg = this.formBuilder.group({ 
@@ -26,6 +28,36 @@ export class CreateAccountComponent implements OnInit {
   isSidePanelOpen: boolean = false;
 
   ngOnInit(): void {
+    this.userService.user$.subscribe(authUser => {
+      if (authUser) {
+        this.userService.getUserByUid(authUser.uid).subscribe(
+          userDetails => {
+            if (userDetails) {
+              this.user = {
+                email: authUser.email,
+                id: authUser.uid,
+                nom: userDetails.nom,
+                prenom: userDetails.prenom,
+                adresse: userDetails.adresse,
+                telephone: userDetails.telephone,
+                password: '' 
+              };
+              this.formReg.patchValue(this.user);
+            } else {
+              console.error('User not found');
+              this.user = null;
+            }
+          },
+          error => {
+            console.error('Error fetching user details:', error);
+            this.user = null;
+          }
+        );
+      } else {
+        this.user = null;
+        this.formReg.reset();
+      }
+    });
   }
 
   toggleSidePanel() {

@@ -10,7 +10,6 @@ import { FooterComponent } from '../footer/footer.component';
 import { CreateAccountComponent } from '../create-account/create-account.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { RecoverPasswordComponent } from '../recover-password/recover-password.component';
-import { MyInfoComponent } from '../my-info/my-info.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +19,7 @@ import { MyInfoComponent } from '../my-info/my-info.component';
     SidePanelComponent,
     FooterComponent,
     CreateAccountComponent,
-    RecoverPasswordComponent,
-    MyInfoComponent
+    RecoverPasswordComponent
   ],
   imports: [
     CommonModule,
