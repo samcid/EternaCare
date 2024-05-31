@@ -25,25 +25,53 @@
                             </div>
                         </div>
                         <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
-                            <ng-container *ngIf="user; else registerForm">
+                            <ng-container *ngIf="user && !isEditing">
+                                <h2 class="title text-center">Mes données</h2>
+                                <div class="row gy-3 gy-md-4 overflow-hidden">
+                                    <div class="col-12">
+                                        <label class="important">Nom </label>
+                                        <p>{{ user.nom }}</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="important">Prénom</label>
+                                                <p>{{ user.prenom }}</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="important">Adresse</label>
+                                                <p>{{ user.adresse }}</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="important">E-mail</label>
+                                                <p>{{ user.email }}</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="important">Téléphone</label>
+                                        <p>{{ user.telephone }}</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="d-grid">
+                                            <button class="btn-blue" (click)="editUser()">Modifier mes données</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="user && isEditing">
                                 <h2 class="title text-center">Mes données</h2>
                                 <div class="row gy-3 gy-md-4 overflow-hidden">
                                     <div class="col-12">
                                         <label for="nom" class="form-label">Nom <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" formControlName="nom" id="nom" readonly>
+                                        <input type="text" class="form-control" formControlName="nom" id="nom">
                                     </div>
                                     <div class="col-12">
                                         <label for="prenom" class="form-label">Prénom <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" formControlName="prenom" id="prenom"
-                                            readonly>
+                                        <input type="text" class="form-control" formControlName="prenom" id="prenom">
                                     </div>
                                     <div class="col-12">
                                         <label for="adresse" class="form-label">Adresse <span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" formControlName="adresse" id="adresse"
-                                            readonly>
+                                        <input type="text" class="form-control" formControlName="adresse" id="adresse">
                                     </div>
                                     <div class="col-12">
                                         <label for="email" class="form-label">E-mail <span
@@ -54,16 +82,17 @@
                                     <div class="col-12">
                                         <label for="telephone" class="form-label">Téléphone (optionnel)</label>
                                         <input type="tel" class="form-control" formControlName="telephone"
-                                            id="telephone" inputmode="tel" readonly>
+                                            id="telephone" inputmode="tel">
                                     </div>
                                     <div class="col-12">
-                                        <div class="d-grid">
-                                            <button class="btn-blue">Modifier mes données</button>
+                                        <div class="d-flex justify-content-center">
+                                            <button class="btn-blue mx-2" type="submit">GARDER</button>
+                                            <button class="btn-cancel mx-2" (click)="editUser()">ANNULER</button>
                                         </div>
-                                    </div>
+                                    </div>  
                                 </div>
                             </ng-container>
-                            <ng-template #registerForm>
+                            <ng-container *ngIf="!user">
                                 <div class="row gy-3 gy-md-4 overflow-hidden">
                                     <div class="col-12">
                                         <label for="nom" class="form-label">Nom <span
@@ -134,7 +163,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </ng-template>
+                            </ng-container>
                         </form>
                         <ng-container *ngIf="!user">
                             <div class="row">

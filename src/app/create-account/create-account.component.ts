@@ -13,6 +13,7 @@ export class CreateAccountComponent implements OnInit {
 
   formReg: FormGroup;
   user: User | null = null;
+  isEditing = false;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) { 
     this.formReg = this.formBuilder.group({ 
@@ -69,20 +70,24 @@ export class CreateAccountComponent implements OnInit {
   }
 
   async onSubmit() {
-    if (this.formReg.valid) { 
+    if (this.user == null && this.formReg.valid) { 
       await this.userService.register(this.formReg.value)
         .then(response => {
-          console.log(response)
           this.router.navigate(['/login'])
         })
         .catch(error => console.log(error))
-    } else {
+    } if (this.isEditing && this.user != null){
+      const userId = this.user.id || '';
+      await this.userService.updateUser(userId, this.formReg.value ).then(response =>{
+        console.log(response)
+        this.isEditing = false;
+      }).
+      catch(error => console.log(error))
     }
   }
 
   loginWithGoogle(){
     this.userService.loginWithGoogle().then(response => {
-      console.log(response)
       this.router.navigate(['/home'])
     })
     .catch(error => console.log(error))
@@ -99,6 +104,16 @@ export class CreateAccountComponent implements OnInit {
       event.preventDefault();
     }
   }
+
+  editUser(){
+    if (!this.isEditing){
+      this.isEditing = true;
+    } else {
+      this.isEditing = false;
+    }
+    
+  }
+
 
   get nom() { return this.formReg.get('nom'); }
   get prenom() { return this.formReg.get('prenom'); }

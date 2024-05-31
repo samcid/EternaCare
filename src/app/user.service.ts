@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, authState, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail} from '@angular/fire/auth';
-import { Firestore, collection, addDoc, query, where, QuerySnapshot,getDocs, collectionData, doc, docData, QueryDocumentSnapshot, DocumentData } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, query, where, QuerySnapshot,getDocs, collectionData, doc, docData, QueryDocumentSnapshot, DocumentData, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import User from 'src/interfaces/user.interface';
 
@@ -90,21 +90,47 @@ export class UserService {
     return collectionData(userDetailsRef, { idField: 'uid' }) as Observable<User[]>;
   }
 
-  getUserByUid(uid: string): Observable<User | undefined> {
+  getUserByUid(uid: string): Observable<any | undefined> {
     const userDetailsRef = collection(this.firestore, 'userDetails');
     const q = query(userDetailsRef, where('uid', '==', uid));
-    return new Observable<User | undefined>(observer => {
+
+    return new Observable(observer => {
       getDocs(q).then(querySnapshot => {
         if (!querySnapshot.empty) {
-          const userDoc: QueryDocumentSnapshot<DocumentData> = querySnapshot.docs[0];
-          observer.next(userDoc.data() as User);
+          const userDoc = querySnapshot.docs[0];
+          const docRef = doc(this.firestore, 'userDetails', userDoc.id);
+          const userData$ = docData(docRef, { idField: 'uid' });
+          userData$.subscribe(userData => {
+            observer.next(userData);
+          }, error => {
+            observer.error(error);
+          });
         } else {
           observer.next(undefined);
+          observer.complete();
         }
-        observer.complete();
       }).catch(error => {
         observer.error(error);
       });
     });
+  }
+
+  async updateUser(uid: string, data: any): Promise<void> {
+    try {
+      const userDetailsRef = collection(this.firestore, 'userDetails');
+      const q = query(userDetailsRef, where('uid', '==', uid));
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        const docRef = doc(this.firestore, 'userDetails', userDoc.id);
+        await updateDoc(docRef, data);
+      } else {
+        throw new Error('No document found with the specified UID');
+      }
+    } catch (error) {
+      console.error("Error al actualizar usuario:", error);
+      throw error;
+    }
   }
 }

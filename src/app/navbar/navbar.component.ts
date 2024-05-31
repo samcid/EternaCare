@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CartService } from '../cart.service';
 import { UserService } from '../user.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,7 @@ export class NavbarComponent implements OnInit {
   user$: Observable<any>;
   @Output() cartIconClick = new EventEmitter<void>();
 
-  constructor(public cartService: CartService, private userService: UserService) { 
+  constructor(public cartService: CartService, private userService: UserService,private router: Router) { 
     this.user$ = this.userService.user$;
   }
 
@@ -27,6 +28,7 @@ export class NavbarComponent implements OnInit {
   
   logout() {
     this.userService.logout();
+    this.router.navigate(['/home'])
   }
 
 }

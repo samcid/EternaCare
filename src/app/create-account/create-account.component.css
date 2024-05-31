@@ -51,7 +51,34 @@ footer ul li {
     transition: background-color 0.3s, color 0.3s; 
 }
 
+.btn-cancel {
+    background-color: white;
+    color: #263240;
+    border: none;
+    border-bottom: 2px solid #263240;
+    border-radius: 2px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+.btn-cancel:hover {
+    background-color: #E8E8E8; 
+}
+
+
 .paragraphe{
     font-family: 'Century Gothic';
+    font-size: 12pt;
+}
+
+.paragraphe{
+    font-family: 'Century Gothic';
+    font-size: 12pt;
+}
+
+.important{
+    font-family: 'Century Gothic';
+    font-weight: bold;
     font-size: 12pt;
 }
