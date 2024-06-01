@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService } from '../cart.service';
+import { CartService } from '../services/cart.service';
 import { Product } from '../models/product.model';
 import { ViewportScroller } from '@angular/common';
+import { ProductsService } from '../services/products.service';
 
 interface AccordionOption {
   title: string;
@@ -16,25 +17,19 @@ interface AccordionOption {
 })
 export class HomeComponent implements OnInit {
   quantity: number = 1;
-  products: Product[] = [{
-    productId: 1,
-    name: 'astACTIV',
-    quantities: "4mg 10% d'astaxanthine  60pcs",
-    description: "Découvrez astACTIV, votre allié pour une vitalité optimale grâce à sa formule innovante à base d'astaxanthine. Protégez-vous du stress oxydatif, renforcez votre système immunitaire et améliorez vos performances physiques. Transformez votre quotidien dès aujourd'hui avec astACTIV.",
-    productName: 'Astaxanthine',
-    productDescription: "L'astaxanthine, pigment rouge orangé de la famille des caroténoïdes, est un antioxydant 6000 fois plus puissant que la vitamine C. Il piège les radicaux libres et protège les cellules du stress oxydatif, prévenant ainsi le vieillissement cellulaire.",
-    advantages: "L'astaxanthine agit comme un puissant antioxydant, protégeant le cerveau et les cellules contre le stress oxydatif causé par les radicaux libres. Elle offre également une protection pour les yeux et contre le vieillissement cutané, améliorant les performances physiques, la vision, les défenses immunitaires, et favorisant la santé cardiovasculaire et articulaire.",
-    quality: "Certifié selon le système HACCP (Hazard Analysis Critical and Control Point), garantissant les normes d'hygiène alimentaire. Sans allergène, sans OGM, sans additif synthétique, convient aux régimes vegan et végétarien. Produit validé par l'EFSA (Autorité européenne de sécurité des aliments).",
-    dosage: "Prendre 1 gélule par jour avec 1 ou 2 verres d'eau (300-400 ml). Ne pas administrer aux enfants et adolescents. Consultez un médecin en cas de grossesse, d'allaitement, ou si vous avez des difficultés à avaler.",
-    price: 49.75,
-    stock: 100,
-    image: "../../assets/img/eterna2-removebg.png"
-  }
-]; 
+  products: Product[] = []; 
   isSidePanelOpen: boolean = false;
-  constructor(private cartService: CartService, private viewportScroller: ViewportScroller) { }
+  constructor(private cartService: CartService, private viewportScroller: ViewportScroller, private productService: ProductsService) { }
 
   ngOnInit(): void {
+    this.productService.getProducts().subscribe(
+      (products: Product[]) => {
+       this.products = products;
+      },
+      (error) => {
+        console.error('Error fetching products:', error);
+      }
+    );
   }
 
   increment() {
