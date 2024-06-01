@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'singin', component: CreateAccountComponent},
   { path: 'recover', component: RecoverPasswordComponent},
   { path: 'my-info', component: CreateAccountComponent},
+  { path: 'complete', component: CreateAccountComponent, data: { isEditing: true }}
 ];
 
 @NgModule({

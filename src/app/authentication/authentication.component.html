@@ -76,13 +76,16 @@
                   <a routerLink="/singin" class="link-secondary text-decoration-none">Créer un compte</a>
                   <a routerLink="/recover" class="link-secondary text-decoration-none">Mot de passe oublié?</a>
                 </div>
+                <div class="link-secondary text-center" style="margin-top: 2%;">
+                  <p>ou</p>
+                </div>
+                <div class="col-12 d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center"
+                style="margin-top: 2%;">
+                <button class="btn-blue" (click)="loginWithGoogle()">
+                  <i class="bi bi-google"></i> Continuer avec Google
+                </button>
               </div>
-              <div class="col-12 d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center"
-              style="margin-top: 2%;">
-              <button class="btn-blue" (click)="loginWithGoogle()">
-                <i class="bi bi-google"></i> Continuer avec Google
-              </button>
-            </div>
+              </div>      
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'; // Importa FormBuilder y Validators
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import User from '../models/user.model';
 
 
@@ -15,8 +15,9 @@ export class CreateAccountComponent implements OnInit {
   formReg: FormGroup;
   user: User | null = null;
   isEditing = false;
+  isCompleting = false;
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) { 
+  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) { 
     this.formReg = this.formBuilder.group({ 
       nom: ['', Validators.required], 
       prenom: ['', Validators.required],
@@ -30,6 +31,10 @@ export class CreateAccountComponent implements OnInit {
   isSidePanelOpen: boolean = false;
 
   ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.isEditing = data['isEditing'];
+      this.isCompleting = this.isEditing;
+    });
     this.userService.user$.subscribe(authUser => {
       if (authUser) {
         this.userService.getUserByUid(authUser.uid).subscribe(
@@ -71,6 +76,10 @@ export class CreateAccountComponent implements OnInit {
   }
 
   async onSubmit() {
+    if (this.formReg.invalid) {
+      this.formReg.markAllAsTouched();
+      return;
+    }
     if (this.user == null && this.formReg.valid) { 
       await this.userService.register(this.formReg.value)
         .then(response => {
@@ -80,8 +89,12 @@ export class CreateAccountComponent implements OnInit {
     } if (this.isEditing && this.user != null){
       const userId = this.user.id || '';
       await this.userService.updateUser(userId, this.formReg.value ).then(response =>{
-        console.log(response)
-        this.isEditing = false;
+        if (this.isCompleting){
+          this.router.navigate(['/home'])
+        } else {
+          this.isEditing = false;
+        }
+        
       }).
       catch(error => console.log(error))
     }
@@ -89,7 +102,7 @@ export class CreateAccountComponent implements OnInit {
 
   loginWithGoogle(){
     this.userService.loginWithGoogle().then(response => {
-      this.router.navigate(['/home'])
+      this.router.navigate(['/complete'])
     })
     .catch(error => console.log(error))
   }
