@@ -2,14 +2,6 @@
     background-color: #263240;
 }
 
-.background-img{
-    background-image: url('../../assets/img/images/ai-generated-8686158.jpg');
-    background-size: cover;
-    background-position: center; 
-    overflow-x: hidden;
-}
-
-
 footer {
     background-color: #263240;
     color: white;

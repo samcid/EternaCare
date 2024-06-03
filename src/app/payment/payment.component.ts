@@ -24,41 +24,35 @@ export class PaymentComponent implements OnInit {
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute,
     private locationiqService: LocationsService) {
-    this.formReg = this.formBuilder.group({
-      nom: ['', Validators.required],
-      prenom: ['', Validators.required],
-      adresse: ['', Validators.required],
-      codePostal: ['', Validators.required],
-      ville: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      telephone: ['', [Validators.pattern(/^\+?[0-9]*$/)]]
-    })
+      this.formReg = this.formBuilder.group({ 
+        nom: ['', Validators.required], 
+        prenom: ['', Validators.required],
+        adresse: ['', Validators.required],
+        codePostal: ['', [Validators.required, Validators.min(1000), Validators.max(9999)]],
+        ville: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        telephone: ['', [Validators.pattern(/^\+?[0-9]*$/)]]
+      });
   }
   ngOnInit(): void {
-  const initialAddressValue = this.formReg.get('adresse')?.value;
-  if (!initialAddressValue) {
-    this.formReg.get('adresse')?.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(value => {
-        if (value && value.length >= 3) {
-          return this.locationiqService.getSuggestions(value);
-        } else {
-          this.suggestions = [];
-          return [];
-        }
-      })
-    ).subscribe(
-      data => this.suggestions = data,
-      error => console.error('Error fetching address suggestions:', error)
-    );
-  }
-    this.route.data.subscribe(data => {
-      this.isEditing = data['isEditing'];
-      this.isCompleting = this.isEditing;
-      this.isPaying = data['isPaying'];
-    });
+    const initialAddressValue = this.formReg.get('adresse')?.value;
+    if (!initialAddressValue) {
+      this.formReg.get('adresse')?.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(value => {
+          if (value && value.length >= 3) {
+            return this.locationiqService.getSuggestions(value);
+          } else {
+            this.suggestions = [];
+            return [];
+          }
+        })
+      ).subscribe(
+        data => this.suggestions = data,
+        error => console.error('Error fetching address suggestions:', error)
+      );
+    }
     this.userService.user$.subscribe(authUser => {
       if (authUser) {
         this.userService.getUserByUid(authUser.uid).subscribe(
@@ -130,17 +124,6 @@ export class PaymentComponent implements OnInit {
     }
   }
 
-  loginWithGoogle() {
-    this.userService.loginWithGoogle().then(response => {
-      if (this.isPaying) {
-        this.router.navigate(['/payment'])
-      } else {
-        this.isEditing = true;
-      }
-    })
-      .catch(error => console.log(error))
-  }
-
   shouldShowError(control: AbstractControl) {
     return control.invalid && (control.dirty || control.touched);
   }
@@ -153,15 +136,6 @@ export class PaymentComponent implements OnInit {
     }
   }
 
-  editUser() {
-    if (!this.isEditing) {
-      this.isEditing = true;
-    } else {
-      this.isEditing = false;
-    }
-
-  }
-
   onAddressInput(): void {
     const addressValue = this.formReg.get('adresse')?.value;
     this.needSugestion = true;
@@ -171,8 +145,40 @@ export class PaymentComponent implements OnInit {
   }
   
   onSuggestionSelected(event: any): void {
-    const selectedAddress = event.target.value;
-    this.formReg.get('adresse')?.setValue(selectedAddress);
+    const selectedDisplayName = event.target.value;
+    const selectedSuggestion = this.suggestions.find(s => s.display_name === selectedDisplayName);
+
+    if (selectedSuggestion) {
+      console.log(selectedSuggestion); // Asegúrate de que la estructura sea la esperada
+      this.formReg.get('adresse')?.setValue(selectedSuggestion.display_name);
+
+      // Extrae el código postal y la ciudad de la sugerencia
+      const displayNameParts: string[] = selectedSuggestion.display_name.split(',');
+      let codePostal = '';
+      let ville = '';
+
+      // Busca el código postal (suponiendo que es una secuencia de 4 a 6 dígitos)
+      for (let part of displayNameParts) {
+        part = part.trim();
+        if (/\b\d{4,6}\b/.test(part)) {
+          codePostal = part;
+          break;
+        }
+      }
+
+      // La ciudad suele estar antes del código postal o en una posición fija
+      if (codePostal) {
+        const codePostalIndex = displayNameParts.findIndex((part: string) => part.trim() === codePostal);
+        ville = displayNameParts[codePostalIndex - 1]?.trim() || '';
+      } else {
+        ville = displayNameParts[displayNameParts.length - 3]?.trim() || '';
+      }
+
+      this.formReg.get('codePostal')?.setValue(codePostal);
+      this.formReg.get('ville')?.setValue(ville);
+    }
+
+    this.suggestions = [];
     this.needSugestion = false;
   }
 
