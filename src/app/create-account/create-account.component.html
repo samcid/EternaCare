@@ -41,6 +41,14 @@
                                         <p>{{ user.adresse }}</p>
                                     </div>
                                     <div class="col-12">
+                                        <label class="important">Code Postal</label>
+                                        <p>{{ user.codePostal}}</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="important">Ville</label>
+                                        <p>{{ user.ville}}</p>
+                                    </div>
+                                    <div class="col-12">
                                         <label class="important">E-mail</label>
                                         <p>{{ user.email }}</p>
                                     </div>
@@ -81,10 +89,40 @@
                                         <label for="adresse" class="form-label">Adresse <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control" formControlName="adresse" id="adresse"
-                                            required>
-                                        <span *ngIf="adresse && shouldShowError(adresse)" class="text-danger">
-                                            <ng-container *ngIf="adresse.errors?.['required']">L'adresse est
-                                                obligatoire.</ng-container>
+                                            required (input)="onAddressInput()">
+                                        <select id="suggestions" *ngIf="suggestions.length && needSugestion"
+                                            class="form-select mt-2" size="5" (change)="onSuggestionSelected($event)">
+                                            <option *ngFor="let suggestion of suggestions"
+                                                [value]="suggestion.display_name">
+                                                {{ suggestion.display_name }}
+                                            </option>
+                                        </select>
+                                        <span *ngIf="formReg.get('adresse')?.invalid && formReg.get('adresse')?.touched"
+                                            class="text-danger">
+                                            L'adresse est obligatoire.
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="codePostal" class="form-label">Code Postal</label>
+                                        <input type="number" class="form-control" formControlName="codePostal"
+                                            id="codePostal">
+                                        <span
+                                            *ngIf="formReg.get('codePostal')?.invalid && formReg.get('codePostal')?.touched"
+                                            class="text-danger">
+                                            <ng-container *ngIf="formReg.get('codePostal')?.errors?.['required']">Le
+                                                code postal est obligatoire.</ng-container>
+                                            <ng-container *ngIf="formReg.get('codePostal')?.errors?.['max']">Saisir un
+                                                code postal valide pour Suisse.</ng-container>
+                                            <ng-container *ngIf="formReg.get('codePostal')?.errors?.['min']">Saisir un
+                                                code postal valide pour Suisse.</ng-container>
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="ville" class="form-label">Ville</label>
+                                        <input type="text" class="form-control" formControlName="ville" id="ville">
+                                        <span *ngIf="formReg.get('ville')?.invalid && formReg.get('ville')?.touched"
+                                            class="text-danger">
+                                            La ville est obligatoire.
                                         </span>
                                     </div>
                                     <div class="col-12">
@@ -136,10 +174,40 @@
                                         <label for="adresse" class="form-label">Adresse <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control" formControlName="adresse" id="adresse"
-                                            required>
-                                        <span *ngIf="adresse && shouldShowError(adresse)" class="text-danger">
-                                            <ng-container *ngIf="adresse.errors?.['required']">L'adresse est
-                                                obligatoire.</ng-container>
+                                            required (input)="onAddressInput()">
+                                        <select id="suggestions" *ngIf="suggestions.length && needSugestion"
+                                            class="form-select mt-2" size="5" (change)="onSuggestionSelected($event)">
+                                            <option *ngFor="let suggestion of suggestions"
+                                                [value]="suggestion.display_name">
+                                                {{ suggestion.display_name }}
+                                            </option>
+                                        </select>
+                                        <span *ngIf="formReg.get('adresse')?.invalid && formReg.get('adresse')?.touched"
+                                            class="text-danger">
+                                            L'adresse est obligatoire.
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="codePostal" class="form-label">Code Postal</label>
+                                        <input type="number" class="form-control" formControlName="codePostal"
+                                            id="codePostal">
+                                        <span
+                                            *ngIf="formReg.get('codePostal')?.invalid && formReg.get('codePostal')?.touched"
+                                            class="text-danger">
+                                            <ng-container *ngIf="formReg.get('codePostal')?.errors?.['required']">Le
+                                                code postal est obligatoire.</ng-container>
+                                            <ng-container *ngIf="formReg.get('codePostal')?.errors?.['max']">Saisir un
+                                                code postal valide pour Suisse.</ng-container>
+                                            <ng-container *ngIf="formReg.get('codePostal')?.errors?.['min']">Saisir un
+                                                code postal valide pour Suisse.</ng-container>
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="ville" class="form-label">Ville</label>
+                                        <input type="text" class="form-control" formControlName="ville" id="ville">
+                                        <span *ngIf="formReg.get('ville')?.invalid && formReg.get('ville')?.touched"
+                                            class="text-danger">
+                                            La ville est obligatoire.
                                         </span>
                                     </div>
                                     <div class="col-12">
@@ -158,12 +226,14 @@
                                         <label for="password" class="form-label">Mot de passe <span
                                                 class="text-danger">*</span></label>
                                         <input type="password" class="form-control" formControlName="password"
-                                            id="password" required>
-                                        <span *ngIf="password && shouldShowError(password)" class="text-danger">
-                                            <ng-container *ngIf="password.errors?.['required']">Le mot de passe est
-                                                obligatoire.</ng-container>
-                                            <ng-container *ngIf="password.errors?.['minlength']">Le mot de passe doit
-                                                contenir au moins 6 caractères.</ng-container>
+                                            id="password">
+                                        <span
+                                            *ngIf="formReg.get('password')?.invalid && (formReg.get('password')?.dirty || formReg.get('password')?.touched)"
+                                            class="text-danger">
+                                            <ng-container *ngIf="formReg.get('password')?.errors?.['required']">Le mot
+                                                de passe est obligatoire.</ng-container>
+                                            <ng-container *ngIf="formReg.get('password')?.errors?.['minlength']">Le mot
+                                                de passe doit contenir au moins 6 caractères.</ng-container>
                                         </span>
                                     </div>
                                     <div class="col-12">

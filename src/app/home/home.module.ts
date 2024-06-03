@@ -10,6 +10,8 @@ import { FooterComponent } from '../footer/footer.component';
 import { CreateAccountComponent } from '../create-account/create-account.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { RecoverPasswordComponent } from '../recover-password/recover-password.component';
+import { PaymentComponent } from '../payment/payment.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,14 +21,16 @@ import { RecoverPasswordComponent } from '../recover-password/recover-password.c
     SidePanelComponent,
     FooterComponent,
     CreateAccountComponent,
-    RecoverPasswordComponent
+    RecoverPasswordComponent,
+    PaymentComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    SweetAlert2Module
+    SweetAlert2Module,
+    HttpClientModule
   ]
 })
 export class HomeModule { 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import Swal from 'sweetalert2';
 
@@ -12,18 +12,22 @@ import Swal from 'sweetalert2';
 export class AuthenticationComponent implements OnInit {
 
   formReg: FormGroup;
-  formSubmitted: boolean = false; 
-  errorMessage: string = ''; 
+  formSubmitted: boolean = false;
+  errorMessage: string = '';
   isSidePanelOpen: boolean = false;
+  isPaying = false;
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router) { 
-    this.formReg = this.formBuilder.group({ 
+  constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+    this.formReg = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
-  
+
   ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.isPaying = data['isPaying'];
+    });
   }
 
   toggleSidePanel() {
@@ -36,24 +40,41 @@ export class AuthenticationComponent implements OnInit {
 
   onSubmit() {
     this.formSubmitted = true;
-    if (this.formReg.valid) { 
+    if (this.formReg.valid) {
       this.userService.login(this.formReg.value)
         .then(response => {
-          this.router.navigate(['/home']);
+          if (this.isPaying) {
+            this.router.navigate(['/payment']);
+          } else {
+            this.router.navigate(['/home']);
+          }
         })
         .catch(error => {
-          this.handleAuthError(error); 
+          this.handleAuthError(error);
         });
     }
   }
 
+  createAccount() {
+    if (this.isPaying){
+      this.router.navigate(['/singinAndPay']);
+    } else {
+      this.router.navigate(['/singin']);
+    }
+   
+  }
+
   loginWithGoogle() {
     this.userService.loginWithGoogle().then(response => {
-      this.router.navigate(['/home']);
+      if(this.isPaying){
+        this.router.navigate(['/payment']);
+      } else {
+        this.router.navigate(['/home']);
+      }
     })
-    .catch(error => {
-      this.handleAuthError(error); 
-    });
+      .catch(error => {
+        this.handleAuthError(error);
+      });
   }
 
   handleAuthError(error: any) {
@@ -78,7 +99,7 @@ export class AuthenticationComponent implements OnInit {
           position: "top",
         });
         break;
-    }    
+    }
   }
 
   get email() {

@@ -18,7 +18,7 @@ export class UserService {
 
   async register(user: User) {
     try {
-      const { email, password, nom, prenom, adresse, telephone } = user;
+      const { email, password, nom, prenom, adresse, codePostal, ville, telephone } = user;
 
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
 
@@ -31,6 +31,8 @@ export class UserService {
         nom,
         prenom,
         adresse,
+        codePostal,
+        ville,
         email,
         telephone
       });

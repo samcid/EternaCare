@@ -3,6 +3,8 @@ export default interface User {
     nom?: string;
     prenom?: string;
     adresse?: string;
+    codePostal: number;
+    ville: string;
     email: string;
     password: string;
     telephone?: string;
