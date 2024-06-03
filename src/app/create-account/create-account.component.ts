@@ -136,8 +136,8 @@ export class CreateAccountComponent implements OnInit {
         })
         .catch(error => console.log(error))
     } if (this.isEditing && this.user != null){
-      debugger;
       const userId = this.user.id || '';
+      this.formReg.get('password')?.setValue(null);
       await this.userService.updateUser(userId, this.formReg.value ).then(response =>{
         console.log(response)
         if (this.isCompleting){
