@@ -89,13 +89,13 @@ footer ul li {
     display: flex;
     flex-direction: row;
     height: 100vh;
-    overflow: hidden;
 }
 
 .left-panel {
     width: 60%;
-    overflow-y: auto;
     padding: 20px;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .right-panel {
@@ -126,21 +126,6 @@ footer ul li {
     .left-panel {
         padding: 10px;
     }
-}
-
-/* CSS */
-
-.card {
-    width: 100%;
-}
-
-.card-body {
-    display: flex;
-    align-items: center;
-}
-
-.card-body img {
-    margin-right: 10px;
 }
 
 .form-control {

@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
     this.productService.getProducts().subscribe(
       (products: Product[]) => {
        this.products = products;
+       console.log(this.products)
       },
       (error) => {
         console.error('Error fetching products:', error);
@@ -51,7 +52,8 @@ export class HomeComponent implements OnInit {
   }
 
   addToTheCart(product: Product){
-    this.cartService.addToCart(product.productId, product.name, product.quantities, product.image, product.price, this.quantity);
+    debugger;
+    this.cartService.addToCart(product.id, product.name, product.quantities, product.image, product.price, this.quantity);
     this.isSidePanelOpen = !this.isSidePanelOpen;
   }
 

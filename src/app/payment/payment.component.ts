@@ -28,6 +28,7 @@ export class PaymentComponent implements OnInit {
   quantity = 0;
   index = 0;
   total = 0;
+  subtotal = 0;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute,
     private locationiqService: LocationsService, public cartService: CartService) {
@@ -108,7 +109,8 @@ export class PaymentComponent implements OnInit {
 
   getTotal() {
     const cartItems = this.cartService.getCartItems();
-    this.total = cartItems.reduce((total, item) => total + (item.quantity * item.price), 0);
+    this.subtotal = cartItems.reduce((total, item) => total + (item.quantity * item.price), 0);
+    this.total = this.subtotal + this.delivery;
   }
   toggleSidePanel() {
     this.isSidePanelOpen = !this.isSidePanelOpen;
