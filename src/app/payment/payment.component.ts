@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import User from '../models/user.model';
 import { LocationsService } from '../services/locations.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { CartService } from '../services/cart.service';
+import { Cart } from '../models/cart.model';
 
 @Component({
   selector: 'app-payment',
@@ -21,9 +23,14 @@ export class PaymentComponent implements OnInit {
   isSidePanelOpen: boolean = false;
   suggestions: any[] = [];
   needSugestion = false;
+  deliveryFree = false;
+  delivery = 0;
+  quantity = 0;
+  index = 0;
+  total = 0;
 
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute,
-    private locationiqService: LocationsService) {
+    private locationiqService: LocationsService, public cartService: CartService) {
       this.formReg = this.formBuilder.group({ 
         nom: ['', Validators.required], 
         prenom: ['', Validators.required],
@@ -85,8 +92,24 @@ export class PaymentComponent implements OnInit {
         this.formReg.reset();
       }
     });
+    this.calculateTotalQuantity();
+    this.getTotal();
   }
 
+  ngOnChanges(): void {
+    this.calculateTotalQuantity();
+    this.getTotal();
+  }
+
+  calculateTotalQuantity(): void {
+    const cartItems = this.cartService.getCartItems();
+    this.quantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+  }
+
+  getTotal() {
+    const cartItems = this.cartService.getCartItems();
+    this.total = cartItems.reduce((total, item) => total + (item.quantity * item.price), 0);
+  }
   toggleSidePanel() {
     this.isSidePanelOpen = !this.isSidePanelOpen;
   }
@@ -191,4 +214,5 @@ export class PaymentComponent implements OnInit {
   get password() { return this.formReg.get('password'); }
   get telephone() { return this.formReg.get('telephone'); }
 
+  
 }
