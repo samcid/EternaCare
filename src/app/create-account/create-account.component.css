@@ -1,0 +1,84 @@
+.background{
+    background-color: #263240;
+}
+
+.background-img{
+    background-image: url('../../assets/img/images/ai-generated-8686158.jpg');
+    background-size: cover;
+    background-position: center; 
+    overflow-x: hidden;
+}
+
+
+footer {
+    background-color: #263240;
+    color: white;
+    padding: 20px;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+footer .contact-info, footer .social-media {
+    margin-left: auto;
+}
+footer ul {
+    list-style-type: none;
+    padding: 0;
+}
+footer ul li {
+    margin-bottom: 10px;
+}
+.normal-font {
+    font-weight: normal;
+}
+
+.btn-blue {
+    background-color: #263240;
+    color: white;
+    border: 2px solid white; 
+    border-radius: 2px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: border-color 0.3s; 
+}
+
+
+.btn-blue:hover {
+    background-color: white; 
+    color:  #263240;
+    border-color:  #263240; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.btn-cancel {
+    background-color: white;
+    color: #263240;
+    border: none;
+    border-bottom: 2px solid #263240;
+    border-radius: 2px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+.btn-cancel:hover {
+    background-color: #E8E8E8; 
+}
+
+
+.paragraphe{
+    font-family: 'Century Gothic';
+    font-size: 12pt;
+}
+
+.paragraphe{
+    font-family: 'Century Gothic';
+    font-size: 12pt;
+}
+
+.important{
+    font-family: 'Century Gothic';
+    font-weight: bold;
+    font-size: 12pt;
+}

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+</head>
+
+<body class="background paragraphe">
+    <app-navbar (cartIconClick)="toggleSidePanel()"></app-navbar>
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="py-3 py-md-5">
+                <div class="container">
+                    <div class="row justify-content-md-center">
+                        <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+                            <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
+                                <div class="row gy-3 gy-md-4 overflow-hidden">
+                                    <div class="col-12">
+                                        <label for="email" class="form-label">Compte</label>
+                                        <p>{{ user?.email }}</p>
+                                    </div>
+                                    <hr style="color:  #263240;">
+                                    <div class="tittle">
+                                        <p>Livraison</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="prenom" class="form-label">Prénom <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" formControlName="prenom" id="prenom"
+                                            required>
+                                        <span *ngIf="formReg?.get('prenom')?.invalid && formReg?.get('prenom')?.touched"
+                                            class="text-danger">
+                                            Le prénom est obligatoire.
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="nom" class="form-label">Nom <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" formControlName="nom" id="nom" required>
+                                        <span *ngIf="formReg?.get('nom')?.invalid && formReg?.get('nom')?.touched"
+                                            class="text-danger">
+                                            Le nom est obligatoire.
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="adresse" class="form-label">Adresse <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" formControlName="adresse" id="adresse"
+                                            required (input)="onAddressInput()">
+                                        <select id="suggestions" *ngIf="suggestions.length && needSugestion"
+                                            class="form-select mt-2" size="5" (change)="onSuggestionSelected($event)">
+                                            <option *ngFor="let suggestion of suggestions"
+                                                [value]="suggestion.display_name">
+                                                {{ suggestion.display_name }}
+                                            </option>
+                                        </select>
+                                        <span *ngIf="formReg.get('adresse')?.invalid && formReg.get('adresse')?.touched"
+                                            class="text-danger">
+                                            L'adresse est obligatoire.
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="codePostal" class="form-label">Code Postal</label>
+                                        <input type="number" class="form-control" formControlName="codePostal"
+                                            id="codePostal">
+                                        <span
+                                            *ngIf="formReg.get('codePostal')?.invalid && formReg.get('codePostal')?.touched"
+                                            class="text-danger">
+                                            <ng-container *ngIf="formReg.get('codePostal')?.errors?.['required']">Le
+                                                code postal est obligatoire.</ng-container>
+                                            <ng-container *ngIf="formReg.get('codePostal')?.errors?.['max']">Saisir un
+                                                code postal valide pour Suisse.</ng-container>
+                                            <ng-container *ngIf="formReg.get('codePostal')?.errors?.['min']">Saisir un
+                                                code postal valide pour Suisse.</ng-container>
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="ville" class="form-label">Ville</label>
+                                        <input type="text" class="form-control" formControlName="ville" id="ville">
+                                        <span *ngIf="formReg.get('ville')?.invalid && formReg.get('ville')?.touched"
+                                            class="text-danger">
+                                            La ville est obligatoire.
+                                        </span>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="telephone" class="form-label">Téléphone (optionnel)</label>
+                                        <input type="tel" class="form-control" formControlName="telephone"
+                                            id="telephone" inputmode="tel">
+                                        <span
+                                            *ngIf="formReg?.get('telephone')?.invalid && formReg?.get('telephone')?.touched"
+                                            class="text-danger">
+                                            Le téléphone doit contenir seulement des chiffres et le symbole +.
+                                        </span>
+                                    </div>
+                                    <div class="tittle">
+                                        <p>Mode d'expédition</p>
+                                    </div>
+                                    <div class="col-12" style="display: flex; align-items: center;">
+                                        <input type="text" class="form-control" [(ngModel)]="delivery" readonly
+                                            value="La Post Suisse - {{ delivery }} CHF">
+                                    </div>
+                                    <div>
+                                        <p class="tittle">Paiement</p>
+                                        <p class="link-secondary">Toutes les transactions sont sécurisées et chiffrées.
+                                        </p>
+                                    </div>
+                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                        <input type="radio" class="btn-check" name="paymentMethod" id="creditCard"
+                                            autocomplete="off" checked>
+                                        <label class="btn btn-outline-dark" for="creditCard">Carte de crédit</label>
+                                        <input type="radio" class="btn-check" name="paymentMethod" id="debitCard"
+                                            autocomplete="off">
+                                        <label class="btn btn-outline-dark" for="debitCard">Carte de débit</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="creditCardNumber">Numéro de carte:</label>
+                                        <input type="text" class="form-control" id="creditCardNumber"
+                                            name="creditCardNumber">
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="expiryDate">Date d'expiration:</label>
+                                            <input type="text" class="form-control" id="expiryDate" name="expiryDate">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="securityCode">Code de sécurité:</label>
+                                            <input type="text" class="form-control" id="securityCode"
+                                                name="securityCode">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cardholderName">Nom du titulaire de la carte:</label>
+                                        <input type="text" class="form-control" id="cardholderName"
+                                            name="cardholderName">
+                                    </div>
+                                    <div class="form-group form-check" style="margin-left: 2%;">
+                                        <input type="checkbox" class="form-check-input" id="useShippingAddress"
+                                            name="useShippingAddress">
+                                        <span></span>
+                                        <label class="form-check-label" for="useShippingAddress">Utiliser l'adresse
+                                            d'expédition comme adresse de facturation.</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-center">
+                                            <button class="btn-blue mx-2" type="submit">PAYER MAINTENANT</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="row">
+                <div class="tittle text-center">
+                    <p>résumé d'achat</p>
+                </div>
+                <div class="col-12">
+                    <div *ngIf="quantity > 0">
+                        <ul class="product-list">
+                            <li *ngFor="let item of cartService.getCartItems(); let index = index">
+                                <div class="card p-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-5 d-flex align-items-center">
+                                            <img src="{{item.image}}" class="img-fluid" style="width: 80%;" alt="...">
+                                            <p>x{{item.quantity}}</p>
+                                        </div>
+                                        <div class="col-5 text-center">
+                                            <p>{{ item.name }} | {{ item.quantities }}</p>
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <h5 class="price">{{item.price*item.quantity}} CHF</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div *ngIf="quantity === 0" class="text-dark paragraphe" style="text-align: center; margin-top: 100%;">
+                    <h6>Votre panier est vide</h6>
+                </div>
+                <div class="bottom-bar" *ngIf="quantity > 0">
+                    <div class="d-flex justify-content-between important">
+                        <p>Sous-total</p>
+                        <p>{{subtotal}} CHF</p>
+                    </div>
+                    <div class="d-flex justify-content-between important">
+                        <p>Livraison</p>
+                        <p>{{delivery}} CHF</p>
+                    </div>
+                    <div class="d-flex justify-content-between important">
+                        <p>Total</p>
+                        <p>{{total}} CHF</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+</body>
+
+</html>
