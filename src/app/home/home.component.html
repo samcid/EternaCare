@@ -40,14 +40,14 @@
         </div>
         <div class="container background-orange paragraphe" style="margin-top: 1%;">
             <div class="row">
-                <div class="col-lg-8 col-md-12 d-flex align-items-center justify-content-center"> <!-- Centra la imagen vertical y horizontalmente -->
-                    <img src="{{product.image}}" class="img-fluid" style="width: 70%; height: auto;" alt="..."> <!-- Ajusta el tamaño de la imagen -->
+                <div class="col-lg-8 col-md-12 d-flex align-items-center justify-content-center">
+                    <img src="{{product.image}}" class="img-fluid" style="width: 70%; height: auto;" alt="...">
                 </div>
                 <div class="col-lg-4 col-md-12" style="margin-top: 15%;">
                     <div class="tittle">{{product.name}}</div>
                     <div class="important" style="text-align: center;">{{product.quantities}}</div>
                     <div class="tittle" style="text-align: center;">{{product.price}} CHF</div>
-                    <div class="d-flex align-items-center justify-content-center" style="display: flex; align-items: center; justify-content: center;"> <!-- Centra los elementos -->
+                    <div class="d-flex align-items-center justify-content-center" style="display: flex; align-items: center; justify-content: center;">
                         <button type="button" class="btn btn-light m-2" (click)="decrement()">-</button>
                         <input type="text" class="form-control" style="width: 30%; text-align: center;" [(ngModel)]="quantity" min="1" readonly>
                         <button type="button" class="btn btn-light m-2" (click)="increment()">+</button>
