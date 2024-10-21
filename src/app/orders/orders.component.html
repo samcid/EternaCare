@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>orders</title>
+    <link rel="icon" type="image/x-icon" href="../../assets/img/favicon.ico">
+</head>
+
+<body class="background paragraphe">
+    <app-navbar (cartIconClick)="toggleSidePanel()"></app-navbar>
+    <div class="background-img py-3 py-md-5">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <ng-container *ngIf="isPaying">
+                    <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
+                        <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+                            <a href="#!">
+                                <img src="../../assets/img/logo/Full_logo/Royalblue_LOGO_202404001Fichier 8.png"
+                                    width="30%">
+                            </a>
+                            <div class="mt-2">
+                                <p class="important">Merci de nous faire confiance, voici le détail de la commande
+                                </p>
+                            </div>
+                            <div class="row">
+                                <p class="important">Produit</p>
+                                <p class="important">Montant</p>
+                                <p class="important">Paiement</p>
+                                <p class="important">Total</p>
+                                <hr style="color:  #263240;">
+                                <p class="paragraphe">Livraison</p>
+                                <p class="important">Nom</p>
+                                <p class="important">Adresse</p>
+                                <p class="important">Code Postal</p>
+                                <p class="important">Ville</p>
+                                <p class="important">Téléphone</p>
+                                <p class="important">Mode d'expédition</p>
+                                <p class="important">Numéro de commande</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <button type="button" (click)="toOrders()" class="btn-blue m-2">Mes
+                                    Commandes</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!isPaying">
+                    <div class="col-12">
+                        <div class="bg-white p-4 p-md-5 rounded shadow-sm">
+                            <div>
+                                <a href="#!">
+                                    <img src="../../assets/img/logo/Full_logo/Royalblue_LOGO_202404001Fichier 8.png"
+                                        width="10%">
+                                </a>
+                            </div>
+                            <div class="table-responsive" style="margin-top: 4%;">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Produit</th>
+                                            <th>Montant</th>
+                                            <th>Paiement</th>
+                                            <th>Total</th>
+                                            <th>Nom</th>
+                                            <th>Adresse</th>
+                                            <th>Code Postal</th>
+                                            <th>Ville</th>
+                                            <th>Téléphone</th>
+                                            <th>Mode d'expédition</th>
+                                            <th>Nro de commande</th>
+                                            <th>Statut</th>
+                                            <th>Nro de Suivi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Exemple Produit</td>
+                                            <td>100€</td>
+                                            <td>Carte de Crédit</td>
+                                            <td>120€</td>
+                                            <td>Jean Dupont</td>
+                                            <td>123 Rue Exemple</td>
+                                            <td>75001</td>
+                                            <td>Paris</td>
+                                            <td>0123456789</td>
+                                            <td>Standard</td>
+                                            <td>CMD12345</td>
+                                            <td>En cours</td>
+                                            <td>TRK987654</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Exemple Produit</td>
+                                            <td>100€</td>
+                                            <td>Carte de Crédit</td>
+                                            <td>120€</td>
+                                            <td>Jean Dupont</td>
+                                            <td>123 Rue Exemple</td>
+                                            <td>75001</td>
+                                            <td>Paris</td>
+                                            <td>0123456789</td>
+                                            <td>Standard</td>
+                                            <td>CMD12345</td>
+                                            <td>En cours</td>
+                                            <td>TRK987654</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="text-align: center;">
+                                <button type="button" routerLink="/home" class="btn-blue m-2">Acheter à nouveau</button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>
+    <app-side-panel [isOpen]="isSidePanelOpen" (closePanel)="closeSidePanel()"
+        (openPanel)="toggleSidePanel()"></app-side-panel>
+
+</body>
+
+</html>

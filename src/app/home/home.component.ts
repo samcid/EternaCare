@@ -52,7 +52,6 @@ export class HomeComponent implements OnInit {
   }
 
   addToTheCart(product: Product){
-    debugger;
     this.cartService.addToCart(product.id, product.name, product.quantities, product.image, product.price, this.quantity);
     this.isSidePanelOpen = !this.isSidePanelOpen;
   }

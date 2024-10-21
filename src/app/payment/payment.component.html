@@ -98,8 +98,7 @@
                                         <p>Mode d'expédition</p>
                                     </div>
                                     <div class="col-12" style="display: flex; align-items: center;">
-                                        <input type="text" class="form-control" [(ngModel)]="delivery" readonly
-                                            value="La Post Suisse - {{ delivery }} CHF">
+                                        <input type="text" class="form-control" formControlName="delivery" readonly>
                                     </div>
                                     <div>
                                         <p class="tittle">Paiement</p>

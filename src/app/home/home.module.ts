@@ -12,6 +12,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { RecoverPasswordComponent } from '../recover-password/recover-password.component';
 import { PaymentComponent } from '../payment/payment.component';
 import { HttpClientModule } from '@angular/common/http';
+import { OrdersComponent } from '../orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     FooterComponent,
     CreateAccountComponent,
     RecoverPasswordComponent,
-    PaymentComponent
+    PaymentComponent,
+    OrdersComponent
   ],
   imports: [
     CommonModule,

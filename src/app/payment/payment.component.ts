@@ -30,6 +30,7 @@ export class PaymentComponent implements OnInit {
   total = 0;
   subtotal = 0;
 
+
   constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute,
     private locationiqService: LocationsService, public cartService: CartService) {
       this.formReg = this.formBuilder.group({ 
@@ -39,7 +40,8 @@ export class PaymentComponent implements OnInit {
         codePostal: ['', [Validators.required, Validators.min(1000), Validators.max(9999)]],
         ville: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        telephone: ['', [Validators.pattern(/^\+?[0-9]*$/)]]
+        telephone: ['', [Validators.pattern(/^\+?[0-9]*$/)]],
+        delivery: [{ value: 'La Post Suisse - ' + this.delivery + ' CHF', disabled: true }]
       });
   }
   ngOnInit(): void {
@@ -123,30 +125,16 @@ export class PaymentComponent implements OnInit {
   async onSubmit() {
     if (this.formReg.invalid) {
       this.formReg.markAllAsTouched();
+      const firstInvalidControl = document.querySelector('.ng-invalid');
+      if (firstInvalidControl) {
+        (firstInvalidControl as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return;
     }
-    if (this.user == null && this.formReg.valid) {
-      await this.userService.register(this.formReg.value)
-        .then(response => {
-          if (this.isPaying) {
-            this.router.navigate(['/payment'])
-          } else {
-            this.router.navigate(['/home'])
-          }
-        })
-        .catch(error => console.log(error))
-    } if (this.isEditing && this.user != null) {
-      const userId = this.user.id || '';
-      await this.userService.updateUser(userId, this.formReg.value).then(response => {
-        if (this.isCompleting) {
-          this.router.navigate(['/home'])
-        } else {
-          this.isEditing = false;
-        }
-
-      }).
-        catch(error => console.log(error))
-    }
+    if (this.formReg.valid) {
+      this.router.navigate(['/orders'])
+      this.cartService.clearCart();
+    } 
   }
 
   shouldShowError(control: AbstractControl) {

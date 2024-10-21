@@ -28,6 +28,12 @@ export class CartService {
     this.saveCartItems(cartItems);
   }
 
+  clearCart() {
+    let cartItems: Cart[] = [];
+    this.saveCartItems(cartItems);
+  }
+  
+
   updateQuantity(index: number, quantity: number) {
     let cartItems: Cart[] = this.getCartItems();
     cartItems[index].quantity = quantity;

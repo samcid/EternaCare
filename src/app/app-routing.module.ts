@@ -6,6 +6,7 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 import { PaymentComponent } from './payment/payment.component';
 import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard'
+import { OrdersComponent } from './orders/orders.component';
 
 
 
@@ -20,6 +21,8 @@ const routes: Routes = [
   { path: 'my-info', component: CreateAccountComponent},
   { path: 'complete', component: CreateAccountComponent, data: { isEditing: true }},
   { path: 'payment', component: PaymentComponent, ...canActivate(()=>redirectUnauthorizedTo(['/loginAndPay']))},
+  { path: 'orders', component: OrdersComponent},
+  { path: 'orderComplete', component: OrdersComponent, data: {isPaying: true}},
 ];
 
 @NgModule({
